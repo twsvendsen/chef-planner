@@ -41,6 +41,14 @@
 				</tr>
 		</table>
 	</form:form>
-
+	<form:form method="GET" action="/ChefPlanner/recipesList.html">
+		<table>
+				<tr>
+					<td>
+						<input type="submit" value="Return to Recipes List"/>
+					</td>
+				</tr>
+		</table>
+	</form:form>
 </body>
 </html>

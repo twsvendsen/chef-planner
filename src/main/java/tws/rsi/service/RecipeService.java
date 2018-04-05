@@ -9,6 +9,8 @@ public interface RecipeService
 	
 	Recipe save(Recipe recipe);
 	
+	Recipe findById(Long id);
+	
 	List<Recipe> findAllRecipes();
 
 }

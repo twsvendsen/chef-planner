@@ -23,6 +23,11 @@ public class RecipeServiceImpl implements RecipeService
 		return recipeRepository.save(recipe);
 	}
 
+	public Recipe findById(Long id)
+	{
+		return recipeRepository.findOne(id);
+	}
+	
 	@Override
 	public List<Recipe> findAllRecipes()
 	{

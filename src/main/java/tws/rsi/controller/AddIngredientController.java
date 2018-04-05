@@ -33,7 +33,7 @@ public class AddIngredientController {
 		if(recipe == null)
 			return "redirect:addRecipe.html";
 		else if(recipe.getIngredientsList() == null)
-			return "redirect:recipeIngredients.html";
+			return "redirect:/" + recipe.getId().toString() + "/recipeIngredients.html";
 		Ingredient ingredient = new Ingredient();
 		ingredient.setMeasurement(new Long(0));
 		List<String> measurementUnitOptions = new ArrayList<String>();
@@ -74,7 +74,7 @@ public class AddIngredientController {
 			recipeService.save(recipe); // need to verify saving cascades properly to save underlying IngredientsList / Ingredient objects
 		}
 		
-		return "redirect:recipeIngredients.html";
+		return "redirect:/" + recipe.getId().toString() + "/recipeIngredients.html";
 	}
 	
 	

@@ -55,10 +55,8 @@ public class RecipeController
 		}
 		
 		request.getSession().setAttribute("recipe", recipe);
-//		redirectAttributes.addFlashAttribute("recipe", recipe);
 		
-		return "redirect:recipeIngredients.html";
-		//return "redirect:index.jsp";
+		return "redirect:/" + recipe.getId().toString() + "/recipeIngredients.html";
 	}
 	
 	@RequestMapping(value="getRecipes", method=RequestMethod.GET)
