@@ -32,7 +32,7 @@
 			</c:forEach>
 		</table>
 	</form:form>
-	<form:form method="GET" action="/ChefPlanner/addIngredient.html">
+	<form:form method="GET" modelAttribute="recipe" action="/ChefPlanner/${recipe.getId()}/addIngredient.html">
 		<table>
 				<tr>
 					<td>

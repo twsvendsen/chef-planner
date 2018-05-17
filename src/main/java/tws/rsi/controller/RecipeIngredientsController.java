@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import tws.rsi.model.IngredientsList;
 import tws.rsi.model.Recipe;
+import tws.rsi.service.IngredientsListService;
 import tws.rsi.service.RecipeService;
 
 @Controller
@@ -19,6 +20,9 @@ public class RecipeIngredientsController {
 	
 	@Autowired
 	private RecipeService recipeService; // need to make sure re-using autowired RecipeService does not cause problems
+	
+	@Autowired
+	private IngredientsListService ingredientsListService;
 	
 	@RequestMapping(value = "/{id}/recipeIngredients", method = RequestMethod.GET)
 	public String getRecipeIngredients(@SessionAttribute("recipe") Recipe sessionRecipe, @PathVariable(value="id") Long id, Model model) {
@@ -32,13 +36,16 @@ public class RecipeIngredientsController {
 		{
 			ingredientsList = new IngredientsList();
 			recipe.setIngredientsList(ingredientsList);
+			ingredientsList.setRecipe(recipe);
 			recipeService.save(recipe);
+//			ingredientsListService.save(ingredientsList);
 		}
 		else
 		{
 			ingredientsList = recipe.getIngredientsList();
 		}
 		
+		model.addAttribute("recipe", recipe);
 		model.addAttribute("ingredientsList", ingredientsList);
 		return "recipeIngredients";
 //		return "/" + recipe.getId().toString() + "/recipeIngredients";

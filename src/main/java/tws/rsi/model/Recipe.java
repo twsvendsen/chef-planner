@@ -53,6 +53,7 @@ public class Recipe
 	
 	@OneToOne(mappedBy="recipe", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private IngredientsList ingredientsList;
+	
 	public Integer getCookingHours()
 	{
 		return cookingHours;

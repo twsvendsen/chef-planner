@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -18,6 +20,9 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 @Entity
 @Table(name="ingredient")
+@NamedQueries({
+	@NamedQuery(name="Ingredient.findAllIngredients", query="Select i from Ingredient i") // this name links by-name to the same-named method in the RecipeRepository interface
+})
 public class Ingredient
 {
 	@Id

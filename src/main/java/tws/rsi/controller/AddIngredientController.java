@@ -11,13 +11,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import tws.rsi.model.Ingredient;
+import tws.rsi.model.IngredientsList;
 import tws.rsi.model.Recipe;
+import tws.rsi.service.IngredientsListService;
 import tws.rsi.service.RecipeService;
 
 @Controller
@@ -26,10 +28,14 @@ public class AddIngredientController {
 
 	@Autowired
 	private RecipeService recipeService;
+	
+	@Autowired
+	private IngredientsListService ingredientsListService;
 
-	@RequestMapping(value = "addIngredient", method = RequestMethod.GET)
-	public String addIngredient(@SessionAttribute("recipe") Recipe recipe, Model model, HttpSession session) {
+	@RequestMapping(value = "/{id}/addIngredient", method = RequestMethod.GET)
+	public String addIngredient(@PathVariable(value="id") Long id, Model model, HttpSession session) {
 		//Recipe recipe = (Recipe)session.getAttribute("recipe");
+		Recipe recipe = recipeService.findById(id);
 		if(recipe == null)
 			return "redirect:addRecipe.html";
 		else if(recipe.getIngredientsList() == null)
@@ -59,20 +65,24 @@ public class AddIngredientController {
 		return returnList;
 	}
 	
-	@RequestMapping(value = "addIngredient", method = RequestMethod.POST)
-	public String updateIngredient(@Valid @ModelAttribute("ingredient") Ingredient ingredient, @SessionAttribute("recipe") Recipe recipe, BindingResult result)
+	@RequestMapping(value = "/{id}/addIngredient", method = RequestMethod.POST)
+	public String updateIngredient(@Valid @ModelAttribute("ingredient") Ingredient ingredient, @PathVariable(value="id") Long id, BindingResult result)
 	{
-		System.out.println("result has errors: " + result.hasErrors());
-		
+		Recipe recipe = recipeService.findById(id);
 		if(result.hasErrors())
 		{
+			System.out.println("result has errors: " + result.hasErrors());
 			return "addIngredient";
 		}
-		else
+		else if(recipe.getIngredientsList()!=null)
 		{
-			recipe.addIngredient(ingredient);
+			IngredientsList ingredientsList = recipe.getIngredientsList();
+			ingredientsList.addIngredient(ingredient);
+			ingredientsListService.save(ingredientsList);
 			recipeService.save(recipe); // need to verify saving cascades properly to save underlying IngredientsList / Ingredient objects
 		}
+		else
+			System.out.println("Ingredients list is null.");
 		
 		return "redirect:/" + recipe.getId().toString() + "/recipeIngredients.html";
 	}

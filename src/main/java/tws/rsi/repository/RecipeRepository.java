@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import tws.rsi.model.Recipe;
 
 @Repository("recipeRepository")
-public interface RecipeRepository extends JpaRepository<Recipe, Long>
-{
+public interface RecipeRepository extends JpaRepository<Recipe, Long> {
+	
 	List<Recipe> findAllRecipes();  // this method name links by-name to the same-named Named Query in Recipe.java
 }
