@@ -41,7 +41,7 @@ public class RecipeController
 	}
 	
 	@RequestMapping(value = "addRecipe", method = RequestMethod.POST)
-	public String updateGoal(@Valid @ModelAttribute("recipe") Recipe recipe, HttpServletRequest request, BindingResult result, RedirectAttributes redirectAttributes) {
+	public String updateGoal(@Valid @ModelAttribute("recipe") Recipe recipe, BindingResult result, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		
 		System.out.println("result has errors: " + result.hasErrors());
 		

@@ -32,7 +32,7 @@ public class IngredientsList {
 	
 	@Valid
 	@Autowired
-	@OneToMany(mappedBy="ingredientsList", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="ingredientsList", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Ingredient> ingredients = new ArrayList<>();
 
 	@OneToOne

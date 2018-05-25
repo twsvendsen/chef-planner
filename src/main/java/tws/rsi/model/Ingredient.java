@@ -1,12 +1,10 @@
 package tws.rsi.model;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -31,6 +29,7 @@ public class Ingredient
 	private Long id;
 	
 	@ManyToOne
+	@JoinColumn(name="LIST_ID", nullable=false)
 	private IngredientsList ingredientsList;
 	
 	@NotNull
@@ -44,6 +43,7 @@ public class Ingredient
 	@NumberFormat(style = Style.NUMBER)
 	private Long measurement;
 
+	@Valid
 	@Size(min = 0, max = 500)
 	private String description;
 

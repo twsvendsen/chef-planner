@@ -13,28 +13,26 @@
 	<form:form method="POST" modelAttribute="recipe">
 		<table>
 			<tr>
-				<td>
-					<form:errors path="*" cssClass="errorblock" element="div" />
-				</td>
+				<form:errors path="*" cssClass="errorblock" element="div" />
 			</tr>
 			<tr>
 				<td>
 					<form:label path="name">
 						Enter recipe name:
 					</form:label>
-					<form:input path="name" />
+					<form:input path="name" cssErrorClass="error" />
 				</td>
 				<td>
 					<form:label path="cookingHours">
 						Enter hours:
 					</form:label>
-					<form:input path="cookingHours" />
+					<form:input path="cookingHours" cssErrorClass="error" />
 				</td>
 				<td>
 					<form:label path="cookingMinutes">
 						Enter minutes:
 					</form:label>	
-					<form:input path="cookingMinutes" />
+					<form:input path="cookingMinutes" cssErrorClass="error" />
 				</td>
 			</tr>
 			<tr>

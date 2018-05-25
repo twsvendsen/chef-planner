@@ -5,17 +5,28 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Add Ingredient</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Add Ingredient</title>
+	<style>
+		.error {
+			color: #ff0000;
+		}
+		
+		.errorblock {
+			color: #000;
+			background-color: #ffEEEE;
+			border: 3px solid #ff0000;
+			padding: 8px;
+			margin: 16px;
+		}
+	</style>
 </head>
 <body>
 
 	<form:form method="POST" modelAttribute="ingredient">
 		<table>
 			<tr>
-				<td>
-					<form:errors path="*" cssClass="errorblock" element="div" />
-				</td>
+				<form:errors path="*" cssClass="errorblock" element="div" />
 			</tr>
 			<tr>
 				<td>
@@ -37,7 +48,10 @@
 					<form:label path="measurement">
 						Enter measurement:
 					</form:label>
-					<form:input path="measurement" />
+					<form:input path="measurement" cssErrorClass="error" />
+				</td>
+				<td>
+					<form:errors path="measurement" cssClass="error" />
 				</td>
 			</tr>
 			<tr>
@@ -45,7 +59,10 @@
 					<form:label path="description">
 						Enter description (if applicable):
 					</form:label>
-					<form:input path="description" />
+					<form:input path="description" cssErrorClass="error" />
+				</td>
+				<td>
+					<form:errors path="description" cssClass="error" />
 				</td>
 				<!-- Below is WIP -->
 				

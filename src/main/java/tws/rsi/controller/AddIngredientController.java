@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import tws.rsi.model.Ingredient;
 import tws.rsi.model.IngredientsList;
 import tws.rsi.model.Recipe;
+import tws.rsi.service.IngredientService;
 import tws.rsi.service.IngredientsListService;
 import tws.rsi.service.RecipeService;
 
@@ -31,6 +32,9 @@ public class AddIngredientController {
 	
 	@Autowired
 	private IngredientsListService ingredientsListService;
+	
+	@Autowired
+	private IngredientService ingredientService;
 
 	@RequestMapping(value = "/{id}/addIngredient", method = RequestMethod.GET)
 	public String addIngredient(@PathVariable(value="id") Long id, Model model, HttpSession session) {
@@ -66,7 +70,7 @@ public class AddIngredientController {
 	}
 	
 	@RequestMapping(value = "/{id}/addIngredient", method = RequestMethod.POST)
-	public String updateIngredient(@Valid @ModelAttribute("ingredient") Ingredient ingredient, @PathVariable(value="id") Long id, BindingResult result)
+	public String updateIngredient(@Valid @ModelAttribute("ingredient") Ingredient ingredient, BindingResult result, @PathVariable(value="id") Long id)
 	{
 		Recipe recipe = recipeService.findById(id);
 		if(result.hasErrors())
@@ -78,8 +82,11 @@ public class AddIngredientController {
 		{
 			IngredientsList ingredientsList = recipe.getIngredientsList();
 			ingredientsList.addIngredient(ingredient);
-			ingredientsListService.save(ingredientsList);
-			recipeService.save(recipe); // need to verify saving cascades properly to save underlying IngredientsList / Ingredient objects
+			ingredient.setIngredientsList(ingredientsList);
+			
+			recipeService.save(recipe); // cascades working so far
+//			ingredientsListService.save(ingredientsList); 
+//			ingredientService.save(ingredient);
 		}
 		else
 			System.out.println("Ingredients list is null.");
