@@ -54,8 +54,6 @@ public class RecipeController
 			recipeService.save(recipe);
 		}
 		
-		request.getSession().setAttribute("recipe", recipe);
-		
 		return "redirect:/" + recipe.getId().toString() + "/recipeIngredients.html";
 	}
 	

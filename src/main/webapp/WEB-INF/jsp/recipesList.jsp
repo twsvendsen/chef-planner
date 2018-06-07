@@ -10,25 +10,29 @@
 <title>Add Recipe</title>
 </head>
 <body>
-	<form:form method="GET" modelAttribute="recipesList" >
+	<form:form method="POST" modelAttribute="recipesList" >
 		<table>
 			<tr>
 				<td><hr/></td>
 			</tr>
 			<c:forEach var="recipe" items="${recipesList}" varStatus="status"> <!-- ${status.index} -->
-				<tr>
-					<th>${recipe.getName()}</th>
-				</tr>
-				<tr>
-					<td>${recipe.getCookingHours()} h</td>
-					<td>${recipe.getCookingMinutes()} m</td>
-				</tr>
-				<tr>
-					<form:form method="GET" modelAttribute="recipe" action="/ChefPlanner/${recipe.getId()}/recipeIngredients.html" >
-						<td><input type="submit" value="Edit Recipe"/></td>
-					</form:form>
-				</tr>
+				<form:form method="POST" modelAttribute="recipe" >
+					
+					<tr>
+						<th>${recipe.getName()}</th>
+					</tr>
+					<tr>
+						<td>${recipe.getCookingHours()} h</td>
+						<td>${recipe.getCookingMinutes()} m</td>
+					</tr>
+					<tr>
+						<td><input type="submit" name="recipeChoice" value="${recipe.getId()}"/></td>
+					</tr>
+				</form:form>
 			</c:forEach>
+			<tr>
+				<td><input type="submit" name="newRecipe" value="New Recipe"/></td>
+			</tr>
 		</table>
 	</form:form>
 
