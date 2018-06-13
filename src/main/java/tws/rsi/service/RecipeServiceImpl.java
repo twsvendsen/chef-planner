@@ -33,5 +33,11 @@ public class RecipeServiceImpl implements RecipeService
 	{
 		return recipeRepository.findAllRecipes();
 	}
+	
+	@Override
+	public void delete(Long id)
+	{
+		recipeRepository.delete(id);
+	}
 
 }

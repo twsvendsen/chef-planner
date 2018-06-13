@@ -11,6 +11,8 @@ public interface RecipeService
 	
 	Recipe findById(Long id);
 	
+	void delete(Long id);
+	
 	List<Recipe> findAllRecipes();
 
 }

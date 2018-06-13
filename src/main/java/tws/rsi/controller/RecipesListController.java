@@ -49,4 +49,11 @@ public class RecipesListController {
 		return "redirect:/addRecipe.html";
 	}
 	
+	@RequestMapping(params = "recipeDelete", value = "recipesList", method = RequestMethod.POST)
+	public String deleteRecipe(@RequestParam(value="recipeDelete") String recipeChoice) {
+		
+		recipeService.delete(Long.parseLong(recipeChoice));
+		return "redirect:/recipesList.html";
+	}
+	
 }

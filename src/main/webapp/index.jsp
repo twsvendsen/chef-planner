@@ -52,6 +52,9 @@
         <a class="btn btn-primary" href="addRecipe.html">
           Add Recipe »
         </a>
+        <a style="left-margin:10px" class="btn btn-primary" href="recipesList.html">
+          Recipes List »
+        </a>
       </div>
     </div>
     

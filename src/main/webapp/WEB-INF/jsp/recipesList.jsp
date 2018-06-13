@@ -12,10 +12,10 @@
 <body>
 	<form:form method="POST" modelAttribute="recipesList" >
 		<table>
-			<tr>
-				<td><hr/></td>
-			</tr>
 			<c:forEach var="recipe" items="${recipesList}" varStatus="status"> <!-- ${status.index} -->
+				<tr>
+					<td><hr/></td>
+				</tr>
 				<form:form method="POST" modelAttribute="recipe" >
 					
 					<tr>
@@ -27,9 +27,15 @@
 					</tr>
 					<tr>
 						<td><input type="submit" name="recipeChoice" value="${recipe.getId()}"/></td>
+						<td style="left-margin:10px"><input type="submit" name="recipeDelete" value="${recipe.getId()}"/></td>
+						
 					</tr>
 				</form:form>
 			</c:forEach>
+			<tr>
+					<td><hr/></td>
+			</tr>
+			<tr/>
 			<tr>
 				<td><input type="submit" name="newRecipe" value="New Recipe"/></td>
 			</tr>
