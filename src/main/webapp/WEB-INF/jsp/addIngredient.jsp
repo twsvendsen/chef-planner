@@ -33,14 +33,14 @@
 					<form:label path="name">
 						Enter ingredient name:
 					</form:label>
-					<form:input path="name" />
+					<form:input path="name" value="${ingredient.getName() }"/>
 				</td>
 				<td>
 					<form:label path="measurementUnit">
 						Select measurement unit (if applicable):
 					</form:label>
 					<form:select path="measurementUnit">
-						<form:option value="-1" label="Please Select"/>
+						<form:option value="${ingredient.getMeasurementUnit() }" label="Please Select"/>
 						<form:options items="${measurementUnitOptions}" />
 					</form:select>
 				</td>
@@ -48,7 +48,7 @@
 					<form:label path="measurement">
 						Enter measurement:
 					</form:label>
-					<form:input path="measurement" cssErrorClass="error" />
+					<form:input path="measurement" value="${ingredient.getMeasurement() }" cssErrorClass="error" />
 				</td>
 				<td>
 					<form:errors path="measurement" cssClass="error" />
@@ -59,7 +59,7 @@
 					<form:label path="description">
 						Enter description (if applicable):
 					</form:label>
-					<form:input path="description" cssErrorClass="error" />
+					<form:input path="description" value="${ingredient.getDescription() }" cssErrorClass="error" />
 				</td>
 				<td>
 					<form:errors path="description" cssClass="error" />

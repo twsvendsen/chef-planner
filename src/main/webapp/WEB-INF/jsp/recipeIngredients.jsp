@@ -10,7 +10,7 @@
 <title>Add Recipe</title>
 </head>
 <body>
-	<form:form method="GET" modelAttribute="ingredientsList">
+	<form:form method="POST" modelAttribute="ingredientsList">
 		<table>
 			<tr>
 				<td><hr/></td>
@@ -27,16 +27,20 @@
 					<td>${ingredient.description}</td>
 				</tr>
 				<tr>
+					<td><input type="submit" name="ingredientChoice" value="${ingredient.getId()}"/></td>
+					<td style="left-margin:10px"><input type="submit" name="deleteIngredient" value="${ingredient.getId()}"/></td>
+				</tr>
+				<tr>
 					<td><hr/></td>
 				</tr>
 			</c:forEach>
 		</table>
 	</form:form>
-	<form:form method="GET" modelAttribute="recipe" action="/ChefPlanner/${recipe.getId()}/addIngredient.html">
+	<form:form method="POST" modelAttribute="recipe" >
 		<table>
 				<tr>
 					<td>
-						<input type="submit" value="Add Ingredient"/>
+						<input type="submit" name="addIngredient" value="Add Ingredient"/>
 					</td>
 				</tr>
 		</table>

@@ -6,12 +6,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import tws.rsi.model.Ingredient;
 import tws.rsi.model.IngredientsList;
 import tws.rsi.model.Recipe;
-import tws.rsi.service.IngredientsListService;
+import tws.rsi.service.IngredientService;
 import tws.rsi.service.RecipeService;
 
 @Controller
@@ -21,6 +23,9 @@ public class RecipeIngredientsController {
 	@Autowired
 	private RecipeService recipeService;
 	
+	@Autowired
+	private IngredientService ingredientService;
+	
 	@RequestMapping(value = "/{id}/recipeIngredients", method = RequestMethod.GET)
 	public String getRecipeIngredients(@SessionAttribute("recipe") Recipe sessionRecipe, @PathVariable(value="id") Long id, Model model) {
 		
@@ -28,12 +33,12 @@ public class RecipeIngredientsController {
 		Recipe recipe = recipeService.findById(id);
 		
 		if(recipe == null)
-			return "redirect:addRecipe.jsp";
+			return "redirect:/addRecipe.html";
 		else if(recipe.getIngredientsList() == null)
 		{
 			ingredientsList = new IngredientsList();
 			recipe.setIngredientsList(ingredientsList);
-			ingredientsList.setRecipe(recipe);
+//			ingredientsList.setRecipe(recipe);  This responsibility has been added to Recipe's setIngredientsList()
 			recipeService.save(recipe);
 		}
 		else
@@ -44,5 +49,39 @@ public class RecipeIngredientsController {
 		model.addAttribute("recipe", recipe);
 		model.addAttribute("ingredientsList", ingredientsList);
 		return "recipeIngredients";
+	}
+	
+	@RequestMapping(params="addIngredient", value = "{id}/recipeIngredients", method = RequestMethod.POST)
+	public String addIngredient(@RequestParam(value="addIngredient") String addIngredient, @PathVariable(value="id") Long recipeId) {
+		
+		Ingredient ingredient = new Ingredient();
+		Recipe recipe = recipeService.findById(recipeId);
+		recipe.getIngredientsList().addIngredient(ingredient);
+		ingredient.setIngredientsList(recipe.getIngredientsList());
+		ingredientService.save(ingredient);
+		recipeService.save(recipe);
+//		ingredientService.save(ingredient); // this is how we obtain ingredientID, but causes DUPLICATE save.  NEEDS TO BE REPLACED
+		System.out.println("Currently no ingredientID to work with");
+		return "redirect:/" + recipeId.toString() + "/" + ingredient.getId().toString() + "/addIngredient.html";
+	}
+	
+	@RequestMapping(params="ingredientChoice", value = "{id}/recipeIngredients", method = RequestMethod.POST)
+	public String editIngredient(@RequestParam(value="ingredientChoice") String ingredientChoice, @PathVariable(value="id") Long recipeId) {
+		
+		Ingredient ingredient = ingredientService.findById(Long.parseLong(ingredientChoice));
+		if(ingredient == null)
+			return "recipeIngredients";
+		else
+			return "redirect:/" + recipeId.toString() + "/" + ingredient.getId().toString() + "/addIngredient.html";
+	}
+	
+	@RequestMapping(params="deleteIngredient", value = "{id}/recipeIngredients", method = RequestMethod.POST)
+	public String deleteIngredient(@RequestParam(value="deleteIngredient") String deleteIngredient, @PathVariable(value="id") Long recipeId) {
+		
+		Recipe recipe = recipeService.findById(recipeId);
+		recipe.getIngredientsList().removeIngredient(Long.parseLong(deleteIngredient));
+//		ingredientService.delete(Long.parseLong(deleteIngredient));
+		recipeService.save(recipe);
+		return "redirect:/" + recipeId.toString() + "/recipeIngredients.html";
 	}
 }

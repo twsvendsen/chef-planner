@@ -1,14 +1,16 @@
 package tws.rsi.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MapKey;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -32,18 +34,25 @@ public class IngredientsList {
 	
 	@Valid
 	@Autowired
-	@OneToMany(mappedBy="ingredientsList", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	private List<Ingredient> ingredients = new ArrayList<>();
+	@OneToMany(mappedBy="ingredientsList", cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval=true)
+	@MapKey(name="id")
+	private Map<Long, Ingredient> ingredientsMap = new HashMap<>();
 
 	@OneToOne
 	private Recipe recipe;
 
 	public void addAllIngredients(List<Ingredient> ingredients) {
-		this.ingredients.addAll(ingredients);
+//		this.ingredients.addAll(ingredients);
+		for(Ingredient ingredient : ingredients) 
+		{
+			this.ingredientsMap.put(ingredient.getId(), ingredient);
+			ingredient.setIngredientsList(this);
+		}
 	}
 
 	public void addIngredient(Ingredient ingredient) {
-		this.ingredients.add(ingredient);
+		this.ingredientsMap.put(ingredient.getId(), ingredient);
+		ingredient.setIngredientsList(this);
 	}
 
 	// constructor necessary for ingredients instantiation - doable through Autowiring instead?
@@ -55,24 +64,28 @@ public class IngredientsList {
 		return id;
 	}
 	
+	public Map<Long, Ingredient> getIngredientsMap() {
+		return ingredientsMap;
+	}
+	
 	public List<Ingredient> getIngredients() {
-		return ingredients;
+		return new ArrayList<Ingredient>(this.ingredientsMap.values());
 	}
 	
 	public Recipe getRecipe() {
 		return recipe;
 	}
 
-	public void removeIngredient(int index) {
-		this.ingredients.remove(index);
+	public void removeIngredient(Long index) {
+		this.ingredientsMap.remove(index);
 	}
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 	
-	public void setIngredients(List<Ingredient> ingredients) {
-		this.ingredients = ingredients;
+	public void setIngredientsMap(Map<Long, Ingredient> ingredients) {
+		this.ingredientsMap = ingredients;
 	}
 	
 	public void setRecipe(Recipe recipe) {

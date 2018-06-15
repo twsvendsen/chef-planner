@@ -29,11 +29,11 @@ public class Ingredient
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name="LIST_ID", nullable=false)
+	@JoinColumn(name="LIST_ID")
 	private IngredientsList ingredientsList;
 	
 	@NotNull
-	@Size(min = 1, max = 360)
+	@Size(min = 0, max = 360)
 	@Column(name="INGREDIENT_NAME")
 	private String name;
 	
@@ -46,6 +46,13 @@ public class Ingredient
 	@Valid
 	@Size(min = 0, max = 500)
 	private String description;
+	
+	public Ingredient() {
+		this.name = "";
+		this.measurement = new Long(0);
+		this.measurementUnit = Long.toString(-1);
+		this.description = "";
+	}
 
 	public String getDescription() {
 		return description;

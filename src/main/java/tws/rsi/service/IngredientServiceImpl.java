@@ -30,5 +30,11 @@ public class IngredientServiceImpl implements IngredientService {
 	public List<Ingredient> findAllIngredients() {
 		return ingredientRepository.findAllIngredients();
 	}
+	
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		ingredientRepository.delete(id);
+	}
 
 }

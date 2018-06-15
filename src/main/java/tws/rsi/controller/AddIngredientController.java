@@ -36,16 +36,17 @@ public class AddIngredientController {
 	@Autowired
 	private IngredientService ingredientService;
 
-	@RequestMapping(value = "/{id}/addIngredient", method = RequestMethod.GET)
-	public String addIngredient(@PathVariable(value="id") Long id, Model model, HttpSession session) {
+	@RequestMapping(value = "/{recipeId}/{ingredientId}/addIngredient", method = RequestMethod.GET)
+	public String addIngredient(@PathVariable(value="recipeId") Long recipeId, @PathVariable(value="ingredientId") Long ingredientId, Model model, HttpSession session) {
 		//Recipe recipe = (Recipe)session.getAttribute("recipe");
-		Recipe recipe = recipeService.findById(id);
+		Recipe recipe = recipeService.findById(recipeId);
 		if(recipe == null)
 			return "redirect:addRecipe.html";
 		else if(recipe.getIngredientsList() == null)
 			return "redirect:/" + recipe.getId().toString() + "/recipeIngredients.html";
-		Ingredient ingredient = new Ingredient();
-		ingredient.setMeasurement(new Long(0));
+		Ingredient ingredient = ingredientService.findById(ingredientId);
+		if(ingredient == null)
+			return "redirect:" + recipeId + "/recipeIngredients";
 		List<String> measurementUnitOptions = new ArrayList<String>();
 		measurementUnitOptions = createMeasurementUnitOptionsList();
 		
@@ -69,10 +70,11 @@ public class AddIngredientController {
 		return returnList;
 	}
 	
-	@RequestMapping(value = "/{id}/addIngredient", method = RequestMethod.POST)
-	public String updateIngredient(@Valid @ModelAttribute("ingredient") Ingredient ingredient, BindingResult result, @PathVariable(value="id") Long id)
+	@RequestMapping(value = "/{recipeId}/{ingredientId}/addIngredient", method = RequestMethod.POST)
+	public String updateIngredient(@Valid @ModelAttribute("ingredient") Ingredient userIngredient, BindingResult result,
+			@PathVariable(value="recipeId") Long recipeId, @PathVariable(value="ingredientId") Long ingredientId)
 	{
-		Recipe recipe = recipeService.findById(id);
+		Recipe recipe = recipeService.findById(recipeId);
 		if(result.hasErrors())
 		{
 			System.out.println("result has errors: " + result.hasErrors());
@@ -80,13 +82,16 @@ public class AddIngredientController {
 		}
 		else if(recipe.getIngredientsList()!=null)
 		{
-			IngredientsList ingredientsList = recipe.getIngredientsList();
-			ingredientsList.addIngredient(ingredient);
-			ingredient.setIngredientsList(ingredientsList);
-			
-			recipeService.save(recipe); // cascades working so far
-//			ingredientsListService.save(ingredientsList); 
-//			ingredientService.save(ingredient);
+//			--------- Responsibility of below added to IngredientsListController, and IngredientsList addIngredient also sets the ingredient's ingredientsList to itself ---------
+//			IngredientsList ingredientsList = recipe.getIngredientsList();
+//			ingredientsList.addIngredient(ingredient);
+//			ingredient.setIngredientsList(ingredientsList);
+			Ingredient ingredient = ingredientService.findById(ingredientId);
+			ingredient.setDescription(userIngredient.getDescription());
+			ingredient.setMeasurement(userIngredient.getMeasurement());
+			ingredient.setMeasurementUnit(userIngredient.getMeasurementUnit());
+			ingredient.setName(userIngredient.getName());
+			recipeService.save(recipe);
 		}
 		else
 			System.out.println("Ingredients list is null.");

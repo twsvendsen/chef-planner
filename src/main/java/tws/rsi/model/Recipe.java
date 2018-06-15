@@ -51,7 +51,7 @@ public class Recipe
 	@Range(min = 0, max = 59)
 	private Integer cookingMinutes;
 	
-	@OneToOne(mappedBy="recipe", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToOne(mappedBy="recipe", cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
 	private IngredientsList ingredientsList;
 	
 	public Integer getCookingHours()
@@ -104,6 +104,7 @@ public class Recipe
 
 	public void setIngredientsList(IngredientsList ingredientsList) {
 		this.ingredientsList = ingredientsList;
+		ingredientsList.setRecipe(this);
 	}
 
 	public void setName(String name)
