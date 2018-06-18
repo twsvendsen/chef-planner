@@ -38,7 +38,7 @@ public class AddIngredientController {
 
 	@RequestMapping(value = "/{recipeId}/{ingredientId}/addIngredient", method = RequestMethod.GET)
 	public String addIngredient(@PathVariable(value="recipeId") Long recipeId, @PathVariable(value="ingredientId") Long ingredientId, Model model, HttpSession session) {
-		//Recipe recipe = (Recipe)session.getAttribute("recipe");
+		
 		Recipe recipe = recipeService.findById(recipeId);
 		if(recipe == null)
 			return "redirect:addRecipe.html";

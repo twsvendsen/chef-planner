@@ -38,7 +38,7 @@ public class RecipesListController {
 	}
 	
 	@RequestMapping(params = "recipeChoice", value = "recipesList", method = RequestMethod.POST)
-	public String editRecipe(@ModelAttribute("recipe") Recipe recipe, @RequestParam(value="recipeChoice") String recipeChoice) {
+	public String editRecipeIngredients(@RequestParam(value="recipeChoice") String recipeChoice) {
 		
 		return "redirect:/" + recipeChoice + "/recipeIngredients.html";
 	}
@@ -48,6 +48,12 @@ public class RecipesListController {
 		
 		return "redirect:/addRecipe.html";
 	}
+	
+	@RequestMapping(params = "recipeEdit", value = "recipesList", method = RequestMethod.POST)
+	public String editRecipe(@RequestParam(value="recipeEdit") String recipeEdit) {
+		
+		return "redirect:/" + recipeEdit + "/editRecipe.html";
+	}	
 	
 	@RequestMapping(params = "recipeDelete", value = "recipesList", method = RequestMethod.POST)
 	public String deleteRecipe(@RequestParam(value="recipeDelete") String recipeChoice) {

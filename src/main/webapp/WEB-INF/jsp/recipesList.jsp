@@ -27,7 +27,8 @@
 					</tr>
 					<tr>
 						<td><input type="submit" name="recipeChoice" value="${recipe.getId()}"/></td>
-						<td style="left-margin:10px"><input type="submit" name="recipeDelete" value="${recipe.getId()}"/></td>
+						<td style="left-margin:5px"><input type="submit" name="recipeEdit" value="${recipe.getId()}"/></td>
+						<td style="left-margin:5px"><input type="submit" name="recipeDelete" value="${recipe.getId()}"/></td>
 						
 					</tr>
 				</form:form>

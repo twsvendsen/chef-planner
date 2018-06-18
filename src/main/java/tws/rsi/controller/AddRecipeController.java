@@ -21,7 +21,7 @@ import tws.rsi.service.RecipeService;
 
 @Controller
 @SessionAttributes("recipe")
-public class RecipeController
+public class AddRecipeController
 {
 	
 	@Autowired
@@ -29,7 +29,6 @@ public class RecipeController
 	
 	@RequestMapping(value = "addRecipe", method = RequestMethod.GET)
 	public String addRecipe(Model model, HttpSession session) {
-		//Recipe recipe = (Recipe)session.getAttribute("recipe"); removed because this is NOT about pulling the same recipe to edit over and over
 		
 		Recipe recipe = new Recipe();
 		recipe.setName("");
