@@ -17,10 +17,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Range;
-import org.springframework.context.annotation.Scope;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
-import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name="recipes")

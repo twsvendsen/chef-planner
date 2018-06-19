@@ -25,7 +25,6 @@ public class Ingredient
 {
 	@Id
 	@GeneratedValue
-	//@Column(name="INGREDIENT_ID")
 	private Long id;
 	
 	@ManyToOne
@@ -33,7 +32,7 @@ public class Ingredient
 	private IngredientsList ingredientsList;
 	
 	@NotNull
-	@Size(min = 0, max = 360)
+	@Size(min = 1, max = 360)
 	@Column(name="INGREDIENT_NAME")
 	private String name;
 	
@@ -99,11 +98,6 @@ public class Ingredient
 	public void setMeasurementUnit(String measurementUnit) {
 		this.measurementUnit = measurementUnit;
 	}
-	
-//	public void addMeasurementUnitOptions(Map<Integer, String> newOptions) {
-//		for(Map.Entry e : newOptions.entrySet())
-//			this.measurementUnitOptions.putIfAbsent((Integer)(e.getKey()), (String)(e.getValue()));
-//	}
 
 	public void setName(String name) {
 		this.name = name;

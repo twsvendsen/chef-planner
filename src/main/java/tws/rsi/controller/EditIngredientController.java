@@ -17,32 +17,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import tws.rsi.model.Ingredient;
-import tws.rsi.model.IngredientsList;
 import tws.rsi.model.Recipe;
 import tws.rsi.service.RecipeService;
 
 @Controller
 @SessionAttributes("ingredient")
-public class AddIngredientController {
-
+public class EditIngredientController {
+	
 	@Autowired
 	private RecipeService recipeService;
-
-	@RequestMapping(value = "/{recipeId}/addIngredient", method = RequestMethod.GET)
-	public String addIngredient(@PathVariable(value="recipeId") Long recipeId, Model model, HttpSession session) {
+	
+	@RequestMapping(value = "/{recipeId}/{ingredientId}/editIngredient", method = RequestMethod.GET)
+	public String editIngredient(@PathVariable(value="recipeId") Long recipeId, @PathVariable(value="ingredientId") Long ingredientId, Model model, HttpSession session) {
 		
 		Recipe recipe = recipeService.findById(recipeId);
 		if(recipe == null)
 			return "redirect:addRecipe.html";
 		else if(recipe.getIngredientsList() == null)
 			return "redirect:/" + recipe.getId().toString() + "/recipeIngredients.html";
-		Ingredient ingredient = new Ingredient();
+		Ingredient ingredient = recipe.getIngredientsList().findIngredient(ingredientId);
+		if(ingredient == null)
+			return "redirect:/" + recipeId + "/recipeIngredients";
 		List<String> measurementUnitOptions = new ArrayList<String>();
 		measurementUnitOptions = createMeasurementUnitOptionsList();
 		
 		model.addAttribute("ingredient", ingredient);
 		model.addAttribute("measurementUnitOptions", measurementUnitOptions);
-		return "addIngredient";
+		return "editIngredient";
 	}
 	
 	private static List<String> createMeasurementUnitOptionsList() {
@@ -60,23 +61,30 @@ public class AddIngredientController {
 		return returnList;
 	}
 	
-	@RequestMapping(value = "/{recipeId}/addIngredient", method = RequestMethod.POST)
-	public String updateIngredient(@Valid @ModelAttribute("ingredient") Ingredient ingredient, BindingResult result,
-			@PathVariable(value="recipeId") Long recipeId)
+	@RequestMapping(value = "/{recipeId}/{ingredientId}/editIngredient", method = RequestMethod.POST)
+	public String updateIngredient(@Valid @ModelAttribute("ingredient") Ingredient userIngredient, BindingResult result,
+			@PathVariable(value="recipeId") Long recipeId, @PathVariable(value="ingredientId") Long ingredientId)
 	{
 		if(result.hasErrors())
 		{
 			System.out.println("result has errors: " + result.hasErrors());
-			return "addIngredient";
+			return "editIngredient";
 		}
 		
 		Recipe recipe = recipeService.findById(recipeId);
 		
 		if(recipe.getIngredientsList() != null)
 		{
-			IngredientsList ingredientsList = recipe.getIngredientsList();
-			ingredientsList.addIngredient(ingredient);
-//			ingredient.setIngredientsList(ingredientsList);  this is done by ingredientsList.addIngredient()
+			Ingredient ingredient = recipe.getIngredientsList().findIngredient(ingredientId); // go through parent object to guarantee that this ingredient ID exists within this recipe's list
+			if(ingredient == null)
+			{
+				System.out.println("Ingredient does not exist.");
+				return "redirect:/" + recipeId.toString() + "/recipeIngredients.html";
+			}
+			ingredient.setDescription(userIngredient.getDescription());
+			ingredient.setMeasurement(userIngredient.getMeasurement());
+			ingredient.setMeasurementUnit(userIngredient.getMeasurementUnit());
+			ingredient.setName(userIngredient.getName());
 			recipeService.save(recipe);
 		}
 		else
@@ -84,6 +92,5 @@ public class AddIngredientController {
 		
 		return "redirect:/" + recipe.getId().toString() + "/recipeIngredients.html";
 	}
-	
 	
 }

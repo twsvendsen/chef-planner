@@ -72,6 +72,10 @@ public class IngredientsList {
 		return new ArrayList<Ingredient>(this.ingredientsMap.values());
 	}
 	
+	public Ingredient findIngredient(Long id) {
+		return this.ingredientsMap.get(id);
+	}
+	
 	public Recipe getRecipe() {
 		return recipe;
 	}

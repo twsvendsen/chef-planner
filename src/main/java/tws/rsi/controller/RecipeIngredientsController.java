@@ -23,9 +23,6 @@ public class RecipeIngredientsController {
 	@Autowired
 	private RecipeService recipeService;
 	
-	@Autowired
-	private IngredientService ingredientService;
-	
 	@RequestMapping(value = "/{id}/recipeIngredients", method = RequestMethod.GET)
 	public String getRecipeIngredients(@SessionAttribute("recipe") Recipe sessionRecipe, @PathVariable(value="id") Long id, Model model) {
 		
@@ -54,25 +51,18 @@ public class RecipeIngredientsController {
 	@RequestMapping(params="addIngredient", value = "{id}/recipeIngredients", method = RequestMethod.POST)
 	public String addIngredient(@RequestParam(value="addIngredient") String addIngredient, @PathVariable(value="id") Long recipeId) {
 		
-		Ingredient ingredient = new Ingredient();
-		Recipe recipe = recipeService.findById(recipeId);
-		recipe.getIngredientsList().addIngredient(ingredient);
-		ingredient.setIngredientsList(recipe.getIngredientsList());
-		ingredientService.save(ingredient);
-		recipeService.save(recipe);
-//		ingredientService.save(ingredient); // this is how we obtain ingredientID, but causes DUPLICATE save.  NEEDS TO BE REPLACED
-		System.out.println("Currently no ingredientID to work with");
-		return "redirect:/" + recipeId.toString() + "/" + ingredient.getId().toString() + "/addIngredient.html";
+		return "redirect:/" + recipeId.toString() + "/addIngredient.html";
 	}
 	
 	@RequestMapping(params="ingredientChoice", value = "{id}/recipeIngredients", method = RequestMethod.POST)
 	public String editIngredient(@RequestParam(value="ingredientChoice") String ingredientChoice, @PathVariable(value="id") Long recipeId) {
 		
-		Ingredient ingredient = ingredientService.findById(Long.parseLong(ingredientChoice));
+		Recipe recipe = recipeService.findById(recipeId);
+		Ingredient ingredient = recipe.getIngredientsList().findIngredient(Long.parseLong(ingredientChoice));
 		if(ingredient == null)
 			return "recipeIngredients";
 		else
-			return "redirect:/" + recipeId.toString() + "/" + ingredient.getId().toString() + "/addIngredient.html";
+			return "redirect:/" + recipeId.toString() + "/" + ingredient.getId().toString() + "/editIngredient.html";
 	}
 	
 	@RequestMapping(params="deleteIngredient", value = "{id}/recipeIngredients", method = RequestMethod.POST)
@@ -80,7 +70,6 @@ public class RecipeIngredientsController {
 		
 		Recipe recipe = recipeService.findById(recipeId);
 		recipe.getIngredientsList().removeIngredient(Long.parseLong(deleteIngredient));
-//		ingredientService.delete(Long.parseLong(deleteIngredient));
 		recipeService.save(recipe);
 		return "redirect:/" + recipeId.toString() + "/recipeIngredients.html";
 	}
