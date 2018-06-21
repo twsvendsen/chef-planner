@@ -27,8 +27,9 @@
 					<td>${ingredient.description}</td>
 				</tr>
 				<tr>
-					<td><input type="submit" name="ingredientChoice" value="${ingredient.getId()}"/></td>
-					<td style="left-margin:10px"><input type="submit" name="deleteIngredient" value="${ingredient.getId()}"/></td>
+					<td><input type="submit" name="editIngredient" value="Edit"/></td>
+					<td style="left-margin:10px"><input type="submit" name="deleteIngredient" value="Delete"/></td>
+					<td><input type="hidden" name="ingredientId" value="${ingredient.getId() }" /></td>
 				</tr>
 				<tr>
 					<td><hr/></td>

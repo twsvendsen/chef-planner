@@ -54,22 +54,22 @@ public class RecipeIngredientsController {
 		return "redirect:/" + recipeId.toString() + "/addIngredient.html";
 	}
 	
-	@RequestMapping(params="ingredientChoice", value = "{id}/recipeIngredients", method = RequestMethod.POST)
-	public String editIngredient(@RequestParam(value="ingredientChoice") String ingredientChoice, @PathVariable(value="id") Long recipeId) {
+	@RequestMapping(params={"editIngredient", "ingredientId"}, value = "{id}/recipeIngredients", method = RequestMethod.POST)
+	public String editIngredient(@RequestParam(value="ingredientId") String ingredientId, @PathVariable(value="id") Long recipeId) {
 		
 		Recipe recipe = recipeService.findById(recipeId);
-		Ingredient ingredient = recipe.getIngredientsList().findIngredient(Long.parseLong(ingredientChoice));
+		Ingredient ingredient = recipe.getIngredientsList().findIngredient(Long.parseLong(ingredientId));
 		if(ingredient == null)
 			return "recipeIngredients";
 		else
 			return "redirect:/" + recipeId.toString() + "/" + ingredient.getId().toString() + "/editIngredient.html";
 	}
 	
-	@RequestMapping(params="deleteIngredient", value = "{id}/recipeIngredients", method = RequestMethod.POST)
-	public String deleteIngredient(@RequestParam(value="deleteIngredient") String deleteIngredient, @PathVariable(value="id") Long recipeId) {
+	@RequestMapping(params={"deleteIngredient", "ingredientId"}, value = "{id}/recipeIngredients", method = RequestMethod.POST)
+	public String deleteIngredient(@RequestParam(value="ingredientId") String ingredientId, @PathVariable(value="id") Long recipeId) {
 		
 		Recipe recipe = recipeService.findById(recipeId);
-		recipe.getIngredientsList().removeIngredient(Long.parseLong(deleteIngredient));
+		recipe.getIngredientsList().removeIngredient(Long.parseLong(ingredientId));
 		recipeService.save(recipe);
 		return "redirect:/" + recipeId.toString() + "/recipeIngredients.html";
 	}

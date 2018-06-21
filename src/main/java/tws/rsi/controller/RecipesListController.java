@@ -37,10 +37,10 @@ public class RecipesListController {
 		return "recipesList";
 	}
 	
-	@RequestMapping(params = "recipeChoice", value = "recipesList", method = RequestMethod.POST)
-	public String editRecipeIngredients(@RequestParam(value="recipeChoice") String recipeChoice) {
+	@RequestMapping(params = {"viewIngredients", "recipeId"}, value = "recipesList", method = RequestMethod.POST)
+	public String editRecipeIngredients(@RequestParam(value="recipeId") String recipeId) {
 		
-		return "redirect:/" + recipeChoice + "/recipeIngredients.html";
+		return "redirect:/" + recipeId + "/recipeIngredients.html";
 	}
 	
 	@RequestMapping(params = "newRecipe", value = "recipesList", method = RequestMethod.POST)
@@ -49,16 +49,16 @@ public class RecipesListController {
 		return "redirect:/addRecipe.html";
 	}
 	
-	@RequestMapping(params = "recipeEdit", value = "recipesList", method = RequestMethod.POST)
-	public String editRecipe(@RequestParam(value="recipeEdit") String recipeEdit) {
+	@RequestMapping(params = {"editRecipe", "recipeId"}, value = "recipesList", method = RequestMethod.POST)
+	public String editRecipe(@RequestParam(value="recipeId") String recipeId) {
 		
-		return "redirect:/" + recipeEdit + "/editRecipe.html";
+		return "redirect:/" + recipeId + "/editRecipe.html";
 	}	
 	
-	@RequestMapping(params = "recipeDelete", value = "recipesList", method = RequestMethod.POST)
-	public String deleteRecipe(@RequestParam(value="recipeDelete") String recipeChoice) {
+	@RequestMapping(params = {"deleteRecipe", "recipeId"}, value = "recipesList", method = RequestMethod.POST)
+	public String deleteRecipe(@RequestParam(value="recipeId") String recipeId) {
 		
-		recipeService.delete(Long.parseLong(recipeChoice));
+		recipeService.delete(Long.parseLong(recipeId));
 		return "redirect:/recipesList.html";
 	}
 	
