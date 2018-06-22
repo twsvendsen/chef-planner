@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import tws.rsi.model.Ingredient;
 import tws.rsi.model.IngredientsList;
 import tws.rsi.model.Recipe;
-import tws.rsi.service.IngredientService;
 import tws.rsi.service.RecipeService;
 
 @Controller

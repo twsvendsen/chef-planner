@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import tws.rsi.model.Ingredient;
 import tws.rsi.model.IngredientsList;
 import tws.rsi.model.Recipe;
+import tws.rsi.service.IngredientService;
 import tws.rsi.service.RecipeService;
 
 @Controller
@@ -27,6 +28,9 @@ public class AddIngredientController {
 
 	@Autowired
 	private RecipeService recipeService;
+	
+	@Autowired
+	private IngredientService ingredientService;
 
 	@RequestMapping(value = "/{recipeId}/addIngredient", method = RequestMethod.GET)
 	public String addIngredient(@PathVariable(value="recipeId") Long recipeId, Model model, HttpSession session) {
@@ -75,8 +79,11 @@ public class AddIngredientController {
 		if(recipe.getIngredientsList() != null)
 		{
 			IngredientsList ingredientsList = recipe.getIngredientsList();
+			
 			ingredientsList.addIngredient(ingredient);
+			ingredientService.save(ingredient);
 //			ingredient.setIngredientsList(ingredientsList);  this is done by ingredientsList.addIngredient()
+			
 			recipeService.save(recipe);
 		}
 		else

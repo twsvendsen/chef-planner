@@ -28,6 +28,7 @@
 					<tr>
 						<td><input type="submit" name="viewIngredients" value="View Ingredients"/></td>
 						<td style="left-margin:5px"><input type="submit" name="editRecipe" value="Edit"/></td>
+						<td style="left-margin:5px"><input type="submit" name="copyRecipe" value="Create Copy"/></td>
 						<td style="left-margin:5px"><input type="submit" name="deleteRecipe" value="Delete"/></td>
 						<td><input type="hidden" name="recipeId" value="${recipe.getId()}"/></td>
 					</tr>

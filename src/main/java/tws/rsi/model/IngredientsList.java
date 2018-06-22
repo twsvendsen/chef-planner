@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.MapKey;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -35,7 +35,7 @@ public class IngredientsList {
 	@Valid
 	@Autowired
 	@OneToMany(mappedBy="ingredientsList", cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval=true)
-	@MapKey(name="id")
+	@MapKeyColumn(name="ingredient_id")
 	private Map<Long, Ingredient> ingredientsMap = new HashMap<>();
 
 	@OneToOne
