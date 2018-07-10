@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import tws.rsi.model.Ingredient;
-import tws.rsi.model.IngredientsList;
 import tws.rsi.model.Recipe;
-import tws.rsi.service.IngredientsListService;
+import tws.rsi.service.IngredientService;
 import tws.rsi.service.RecipeService;
 
 @Controller
@@ -27,7 +26,7 @@ public class RecipesListController {
 	private RecipeService recipeService;
 	
 	@Autowired
-	private IngredientsListService ingredientsListService;
+	private IngredientService ingredientService;
 	
 	List<Recipe> recipesList;
 	
@@ -69,9 +68,7 @@ public class RecipesListController {
 		recipeCopy.setCookingHours(originalRecipe.getCookingHours());
 		recipeCopy.setCookingMinutes(originalRecipe.getCookingMinutes());
 		
-		recipeCopy.setIngredientsList(new IngredientsList());
-		
-		ArrayList<Ingredient> originalIngredients = (ArrayList<Ingredient>)(originalRecipe.getIngredientsList().getIngredients());
+		ArrayList<Ingredient> originalIngredients = (ArrayList<Ingredient>)(originalRecipe.getIngredients());
 		
 		for(Ingredient ingredient : originalIngredients) {
 			Ingredient ingredientCopy = new Ingredient();
@@ -79,10 +76,10 @@ public class RecipesListController {
 			ingredientCopy.setDescription(ingredient.getDescription());
 			ingredientCopy.setMeasurement(ingredient.getMeasurement());
 			ingredientCopy.setMeasurementUnit(ingredient.getMeasurementUnit());
+
+			ingredientService.save(ingredientCopy);
+			recipeCopy.addIngredient(ingredientCopy);
 			
-			recipeCopy.getIngredientsList().addIngredient(ingredientCopy);
-			
-//			ingredientsListService.save(recipeCopy.getIngredientsList());
 			recipeCopy = recipeService.save(recipeCopy);
 		}
 		

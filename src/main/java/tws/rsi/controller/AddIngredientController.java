@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import tws.rsi.model.Ingredient;
-import tws.rsi.model.IngredientsList;
 import tws.rsi.model.Recipe;
 import tws.rsi.service.IngredientService;
 import tws.rsi.service.RecipeService;
@@ -38,8 +37,6 @@ public class AddIngredientController {
 		Recipe recipe = recipeService.findById(recipeId);
 		if(recipe == null)
 			return "redirect:addRecipe.html";
-		else if(recipe.getIngredientsList() == null)
-			return "redirect:/" + recipe.getId().toString() + "/recipeIngredients.html";
 		Ingredient ingredient = new Ingredient();
 		List<String> measurementUnitOptions = new ArrayList<String>();
 		measurementUnitOptions = createMeasurementUnitOptionsList();
@@ -75,19 +72,11 @@ public class AddIngredientController {
 		}
 		
 		Recipe recipe = recipeService.findById(recipeId);
+
+		ingredientService.save(ingredient);
+		recipe.addIngredient(ingredient);
 		
-		if(recipe.getIngredientsList() != null)
-		{
-			IngredientsList ingredientsList = recipe.getIngredientsList();
-			
-			ingredientsList.addIngredient(ingredient);
-			ingredientService.save(ingredient);
-//			ingredient.setIngredientsList(ingredientsList);  this is done by ingredientsList.addIngredient()
-			
-			recipeService.save(recipe);
-		}
-		else
-			System.out.println("Ingredients list is null.");
+		recipeService.save(recipe);
 		
 		return "redirect:/" + recipe.getId().toString() + "/recipeIngredients.html";
 	}

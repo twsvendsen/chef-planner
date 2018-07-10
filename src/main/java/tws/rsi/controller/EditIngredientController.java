@@ -33,9 +33,7 @@ public class EditIngredientController {
 		Recipe recipe = recipeService.findById(recipeId);
 		if(recipe == null)
 			return "redirect:addRecipe.html";
-		else if(recipe.getIngredientsList() == null)
-			return "redirect:/" + recipe.getId().toString() + "/recipeIngredients.html";
-		Ingredient ingredient = recipe.getIngredientsList().findIngredient(ingredientId);
+		Ingredient ingredient = recipe.findIngredient(ingredientId);
 		if(ingredient == null)
 			return "redirect:/" + recipeId + "/recipeIngredients";
 		List<String> measurementUnitOptions = new ArrayList<String>();
@@ -73,22 +71,17 @@ public class EditIngredientController {
 		
 		Recipe recipe = recipeService.findById(recipeId);
 		
-		if(recipe.getIngredientsList() != null)
+		Ingredient ingredient = recipe.findIngredient(ingredientId); // go through parent object to guarantee that this ingredient ID exists within this recipe's list
+		if(ingredient == null)
 		{
-			Ingredient ingredient = recipe.getIngredientsList().findIngredient(ingredientId); // go through parent object to guarantee that this ingredient ID exists within this recipe's list
-			if(ingredient == null)
-			{
-				System.out.println("Ingredient does not exist.");
-				return "redirect:/" + recipeId.toString() + "/recipeIngredients.html";
-			}
-			ingredient.setDescription(userIngredient.getDescription());
-			ingredient.setMeasurement(userIngredient.getMeasurement());
-			ingredient.setMeasurementUnit(userIngredient.getMeasurementUnit());
-			ingredient.setName(userIngredient.getName());
-			recipeService.save(recipe);
+			System.out.println("Ingredient does not exist.");
+			return "redirect:/" + recipeId.toString() + "/recipeIngredients.html";
 		}
-		else
-			System.out.println("Ingredients list is null.");
+		ingredient.setDescription(userIngredient.getDescription());
+		ingredient.setMeasurement(userIngredient.getMeasurement());
+		ingredient.setMeasurementUnit(userIngredient.getMeasurementUnit());
+		ingredient.setName(userIngredient.getName());
+		recipeService.save(recipe);
 		
 		return "redirect:/" + recipe.getId().toString() + "/recipeIngredients.html";
 	}

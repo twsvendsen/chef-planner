@@ -10,26 +10,25 @@
 <title>Add Recipe</title>
 </head>
 <body>
-	<form:form method="POST" modelAttribute="ingredientsList">
+	<form:form method="POST" modelAttribute="recipe">
 		<table>
 			<tr>
 				<td><hr/></td>
 			</tr>
-			<c:forEach var="ingredient" items="${ingredientsList.getIngredients()}" >
+			<c:forEach var="ingredient" items="${recipe.getIngredientsMap()}" varStatus="iStatus">
 				<tr>
-					<th>${ingredient.getName()}</th>
+					<th>${ingredient.value.getName()}</th>
 				</tr>
 				<tr>
-					<td>${ingredient.getMeasurement()}</td>
-					<td>${ingredient.getMeasurementUnit()}</td>
+					<td>${ingredient.value.getMeasurement()}</td>
+					<td>${ingredient.value.getMeasurementUnit()}</td>
 				</tr>
 				<tr>
-					<td>${ingredient.description}</td>
+					<td>${ingredient.value.description}</td>
 				</tr>
 				<tr>
-					<td><input type="submit" name="editIngredient" value="Edit"/></td>
-					<td style="left-margin:10px"><input type="submit" name="deleteIngredient" value="Delete"/></td>
-					<td><input type="hidden" name="ingredientId" value="${ingredient.getId() }" /></td>
+					<td><button name="editIngredient" value="${ingredient.key }">Edit</button></td>
+					<td style="left-margin:10px"><button name="deleteIngredient" value="${ingredient.key }">Delete</button></td>
 				</tr>
 				<tr>
 					<td><hr/></td>

@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -25,14 +26,23 @@ import org.springframework.format.annotation.NumberFormat.Style;
 public class Ingredient
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ingredient_id", insertable = false, updatable = false)
+	@SequenceGenerator(name = "generator", sequenceName = "ID_SEQUENCE", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
+	@Column(name="ingredient_id")
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name="LIST_ID")
-	private IngredientsList ingredientsList;
+	@JoinColumn(name="RECIPE_ID")
+	private Recipe recipe;
 	
+	public Recipe getRecipe() {
+		return recipe;
+	}
+
+	public void setRecipe(Recipe recipe) {
+		this.recipe = recipe;
+	}
+
 	@NotNull
 	@Size(min = 1, max = 360)
 	@Column(name="INGREDIENT_NAME")
@@ -63,10 +73,6 @@ public class Ingredient
 	{
 		return id;
 	}
-
-	public IngredientsList getIngredientsList() {
-		return ingredientsList;
-	}
 	
 	public Long getMeasurement() {
 		return measurement;
@@ -87,10 +93,6 @@ public class Ingredient
 	public void setId(Long id)
 	{
 		this.id = id;
-	}
-
-	public void setIngredientsList(IngredientsList ingredientsList) {
-		this.ingredientsList = ingredientsList;
 	}
 
 	public void setMeasurement(Long measurement) {
