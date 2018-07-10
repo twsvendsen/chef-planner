@@ -36,13 +36,9 @@ public class EditRecipeController {
 		System.out.println("result has errors: " + result.hasErrors());
 		
 		if(result.hasErrors())
-		{
 			return "addRecipe";
-		}
 		else
-		{
 			recipeService.save(recipe);
-		}
 		
 		return "redirect:/recipesList.html";
 	}

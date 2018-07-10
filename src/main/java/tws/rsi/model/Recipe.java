@@ -30,13 +30,10 @@ import org.springframework.format.annotation.NumberFormat.Style;
 @NamedQueries({
 	@NamedQuery(name="Recipe.findAllRecipes", query="Select r from Recipe r") // this name links by-name to the same-named method in the RecipeRepository interface
 })
-public class Recipe
-{
-	//public static final String FIND_ALL_RECIPES = "findAllRecipes"; 
+public class Recipe {
 	
 	@Id
 	@GeneratedValue
-	//@Column(name="RECIPE_ID")
 	private Long id;
 	
 	@NotNull
@@ -66,8 +63,7 @@ public class Recipe
 		}
 	}
 
-	public void addIngredient(Ingredient ingredient)
-	{
+	public void addIngredient(Ingredient ingredient) {
 		this.ingredientsMap.put(ingredient.getId(), ingredient);
 		ingredient.setRecipe(this);
 	}
@@ -76,18 +72,15 @@ public class Recipe
 		return this.ingredientsMap.get(id);
 	}
 
-	public Integer getCookingHours()
-	{
+	public Integer getCookingHours() {
 		return cookingHours;
 	}
 
-	public Integer getCookingMinutes()
-	{
+	public Integer getCookingMinutes() {
 		return cookingMinutes;
 	}
 
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
@@ -100,8 +93,7 @@ public class Recipe
 		return ingredientsMap;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 	
@@ -109,18 +101,15 @@ public class Recipe
 		this.ingredientsMap.remove(index);
 	}
 	
-	public void setCookingHours(Integer cookingHours)
-	{
+	public void setCookingHours(Integer cookingHours) {
 		this.cookingHours = cookingHours;
 	}
 
-	public void setCookingMinutes(Integer cookingMinutes)
-	{
+	public void setCookingMinutes(Integer cookingMinutes) {
 		this.cookingMinutes = cookingMinutes;
 	}
 	
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
@@ -128,8 +117,7 @@ public class Recipe
 		this.ingredientsMap = ingredientsMap;
 	}
 	
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 }

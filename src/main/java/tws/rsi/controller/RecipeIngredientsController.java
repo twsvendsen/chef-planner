@@ -28,13 +28,8 @@ public class RecipeIngredientsController {
 		
 		if(recipe == null)
 			return "redirect:/addRecipe.html";
-//		else
-//		{
-//			ingredientsList = recipe.getIngredientsList();
-//		}
 		
 		model.addAttribute("recipe", recipe);
-//		model.addAttribute("ingredientsList", ingredientsList);
 		return "recipeIngredients";
 	}
 	
@@ -56,7 +51,7 @@ public class RecipeIngredientsController {
 	}
 	
 	@RequestMapping(params={"deleteIngredient"}, value = "{id}/recipeIngredients", method = RequestMethod.POST)
-	public String deleteIngredient( @RequestParam(value="deleteIngredient") String ingredientId, @PathVariable(value="id") Long recipeId) {
+	public String deleteIngredient(@RequestParam(value="deleteIngredient") String ingredientId, @PathVariable(value="id") Long recipeId) {
 		
 		Recipe recipe = recipeService.findById(recipeId);
 		recipe.removeIngredient(Long.parseLong(ingredientId));

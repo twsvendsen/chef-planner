@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import tws.rsi.model.Ingredient;
 
 @Repository("ingredientRepository")
-public interface IngredientRepository  extends JpaRepository<Ingredient, Long>{
+public interface IngredientRepository  extends JpaRepository<Ingredient, Long> {
 	
 	List<Ingredient> findAllIngredients();
 }

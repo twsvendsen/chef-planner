@@ -4,8 +4,7 @@ import java.util.List;
 
 import tws.rsi.model.Recipe;
 
-public interface RecipeService
-{
+public interface RecipeService {
 	
 	Recipe save(Recipe recipe);
 	

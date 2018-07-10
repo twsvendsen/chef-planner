@@ -63,10 +63,8 @@ public class AddIngredientController {
 	
 	@RequestMapping(value = "/{recipeId}/addIngredient", method = RequestMethod.POST)
 	public String updateIngredient(@Valid @ModelAttribute("ingredient") Ingredient ingredient, BindingResult result,
-			@PathVariable(value="recipeId") Long recipeId)
-	{
-		if(result.hasErrors())
-		{
+			@PathVariable(value="recipeId") Long recipeId) {
+		if(result.hasErrors()) {
 			System.out.println("result has errors: " + result.hasErrors());
 			return "addIngredient";
 		}

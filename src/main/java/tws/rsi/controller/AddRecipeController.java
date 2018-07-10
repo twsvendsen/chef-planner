@@ -21,8 +21,7 @@ import tws.rsi.service.RecipeService;
 
 @Controller
 @SessionAttributes("recipe")
-public class AddRecipeController
-{
+public class AddRecipeController {
 	
 	@Autowired
 	private RecipeService recipeService;
@@ -45,20 +44,15 @@ public class AddRecipeController
 		System.out.println("result has errors: " + result.hasErrors());
 		
 		if(result.hasErrors())
-		{
 			return "addRecipe";
-		}
 		else
-		{
 			recipeService.save(recipe);
-		}
 		
 		return "redirect:/" + recipe.getId().toString() + "/recipeIngredients.html";
 	}
 	
 	@RequestMapping(value="getRecipes", method=RequestMethod.GET)
-	public String getRecipes(Model model)
-	{
+	public String getRecipes(Model model) {
 		List<Recipe> recipes = recipeService.findAllRecipes();
 		
 		model.addAttribute("recipes", recipes);

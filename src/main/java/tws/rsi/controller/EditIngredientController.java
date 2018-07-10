@@ -61,19 +61,16 @@ public class EditIngredientController {
 	
 	@RequestMapping(value = "/{recipeId}/{ingredientId}/editIngredient", method = RequestMethod.POST)
 	public String updateIngredient(@Valid @ModelAttribute("ingredient") Ingredient userIngredient, BindingResult result,
-			@PathVariable(value="recipeId") Long recipeId, @PathVariable(value="ingredientId") Long ingredientId)
-	{
-		if(result.hasErrors())
-		{
+			@PathVariable(value="recipeId") Long recipeId, @PathVariable(value="ingredientId") Long ingredientId) {
+		if(result.hasErrors()) {
 			System.out.println("result has errors: " + result.hasErrors());
 			return "editIngredient";
 		}
 		
 		Recipe recipe = recipeService.findById(recipeId);
 		
-		Ingredient ingredient = recipe.findIngredient(ingredientId); // go through parent object to guarantee that this ingredient ID exists within this recipe's list
-		if(ingredient == null)
-		{
+		Ingredient ingredient = recipe.findIngredient(ingredientId);
+		if(ingredient == null) {
 			System.out.println("Ingredient does not exist.");
 			return "redirect:/" + recipeId.toString() + "/recipeIngredients.html";
 		}

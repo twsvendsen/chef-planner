@@ -23,8 +23,7 @@ import org.springframework.format.annotation.NumberFormat.Style;
 @NamedQueries({
 	@NamedQuery(name="Ingredient.findAllIngredients", query="Select i from Ingredient i") // this name links by-name to the same-named method in the RecipeRepository interface
 })
-public class Ingredient
-{
+public class Ingredient {
 	@Id
 	@SequenceGenerator(name = "generator", sequenceName = "ID_SEQUENCE", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
@@ -69,8 +68,7 @@ public class Ingredient
 		return description;
 	}
 
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 	
@@ -90,8 +88,7 @@ public class Ingredient
 		this.description = description;
 	}
 
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
